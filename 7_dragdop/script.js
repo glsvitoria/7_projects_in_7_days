@@ -1,0 +1,91 @@
+let areas = {
+    a: null,
+    b: null,
+    c: null
+}
+
+document.querySelectorAll('.item').forEach(item => {
+    item.addEventListener('dragstart', dragStart)
+    item.addEventListener('dragend', dragEnd)
+})
+
+document.querySelectorAll('.area').forEach(area => {
+    area.addEventListener('dragover', dragOver)
+    area.addEventListener('dragleave', dragLeave)
+    area.addEventListener('drop', drop)
+})
+
+document.querySelector('.neutralArea').addEventListener('dragover', dragOverNeutral)
+document.querySelector('.neutralArea').addEventListener('dragleave', dragLeaveNeutral)
+document.querySelector('.neutralArea').addEventListener('drop', dropNeutral)
+
+// FUNCTIONS ITEM
+function dragStart(e) {
+    e.currentTarget.classList.add('dragging')
+}
+
+function dragEnd(e) {
+    e.currentTarget.classList.remove('dragging')
+}
+
+// FUNCTIONS AREA
+function dragOver(e) { // Passou por cima
+    if(e.currentTarget.querySelector('.item') === null){ // Bloqueia para caso já tenha um item no local
+        e.preventDefault() // Permite o drop
+        e.currentTarget.classList.add('hover')
+    }
+}
+
+function dragLeave(e) { // Quando sai de uma área dropável
+    e.currentTarget.classList.remove('hover')
+}
+
+function drop(e) { // Solta o item no local | Só funciona quando o dragOver libera o drop
+    e.currentTarget.classList.remove('hover')
+
+    if(e.currentTarget.querySelector('.item') === null){ // Bloqueia para caso já tenha um item no local
+        let dragItem = document.querySelector('.item.dragging')
+        e.currentTarget.appendChild(dragItem)
+
+        updateAreas()
+    }
+}
+
+// FUNCTIONS NEUTRAL AREA
+function dragOverNeutral(e) {
+    e.preventDefault()
+    e.currentTarget.classList.add('hover')
+}
+
+function dragLeaveNeutral(e) {
+    e.currentTarget.classList.remove('hover')
+}
+
+function dropNeutral(e) {
+    e.currentTarget.classList.remove('hover')
+
+    let dragItem = document.querySelector('.item.dragging')
+    e.currentTarget.appendChild(dragItem)
+
+    updateAreas()
+}
+
+// LOGIC FUNCTIONS
+function updateAreas() {
+    document.querySelectorAll('.area').forEach(area => {
+        let name = area.getAttribute('data-name')
+
+        if(area.querySelector('.item') !== null) {
+            areas[name] = area.querySelector('.item').innerHTML
+        } else {
+            areas[name] = null
+        }
+    })
+
+    if(areas.a === '1' && areas.b === '2' && areas.c === '3'){
+        document.querySelector('.areas').classList.add('correct')
+    } else {
+        document.querySelector('.areas').classList.remove('correct')
+
+    }
+}
