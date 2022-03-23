@@ -32,7 +32,7 @@
  1. Acessar os diferentes links para cada projeto
 
 ### Screenshot
-![](./Screenshot.png)
+![](./Screenshot.PNG)
 ### Links
 - Drum Kit: [Site](https://glsvitoria.github.io/7_projects_in_7_days/1_drum_kit/)
 - Clock: [Site](https://glsvitoria.github.io/7_projects_in_7_days/2_clock/)
